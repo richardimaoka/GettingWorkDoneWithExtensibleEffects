@@ -30,7 +30,10 @@ object Scanner {
     val effScan: Eff[R, PathScan] = PathScan.scan[R](base)
 
     //execute the Eff expression by interpreting it
-    effScan.runReader(ScanConfig(topN)).runReader(fs).run
+    effScan
+      .runReader(ScanConfig(topN)) //Reader[ScanConfig, ?] of Fx.fx2
+      .runReader(fs)               //Reader[Filesystem, ?] of Fx.fx2
+      .run
   }
 }
 
